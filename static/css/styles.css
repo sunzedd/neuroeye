@@ -30,6 +30,7 @@ a:link {
 
 .showcase-title {
   font-weight: bold;
+  padding-bottom: 3%;
   color: rgb(60, 115, 160);
 }
 
@@ -128,11 +129,13 @@ a:link {
 }
 
 .cancel-button {
+  transition: 0.3s;
   width: 30px;
   height: 30px;
 }
 
 .cancel-button:hover {
+  transition: 0.3s;
   border-radius: 50%;
   box-shadow: 0 0 5px 5px rgba(196, 4, 4, 0.342);
 }

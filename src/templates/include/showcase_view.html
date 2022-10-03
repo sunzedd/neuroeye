@@ -12,22 +12,22 @@
   </div>
   
   <div class="row" style="margin-top: 10px;">
-    <div class="col-2">
-      <div class="float-center">
+    <div class="col-1">
+      <div>
         {% if showcase.author_userpic_url %}
-          <img class="border rounded-pill" src="{{ url_for('static', filename=showcase.author_userpic_url) }}" width="30px" height="30px" style="margin-left:10px">
+          <img class="border rounded-pill" src="{{ url_for('static', filename=showcase.author_userpic_url) }}" width="30px" height="30px" style="margin-left:0px">
         {% else %}
-          <img class="border rounded-pill" src="{{ url_for('static', filename='img/placeholder/userpic.png') }}" width="30px" height="30px" style="margin-left:10px">
+          <img class="border rounded-pill" src="{{ url_for('static', filename='img/placeholder/userpic.png') }}" width="30px" height="30px" style="margin-left:0px">
         {% endif %}
       </div>
     </div>
-    <div class="col-4">
+    <div class="col-3">
       <div class="showcase-info">
         {{ showcase.author_name }}
       </div>  
     </div>
 
-    <div class="col-6">
+    <div class="col-8">
       <div class="showcase-info float-end">
         {% for tag in showcase.tags %}
           {{ tag.name }}
