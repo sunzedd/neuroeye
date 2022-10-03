@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>
+      О Neuroeye
+    </title>
+
+    <link rel="icon" href="{{ url_for('static', filename='img/branding/logo_mini.png') }}" type="image/icon type">
+
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='fontawesome/css/all.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/my.css') }}" rel="stylesheet">
+  </head>
+
+  <body style="padding-right: 20%; padding-left: 20%; padding-top: 3%">
+    <div class="row">
+      <div class="col-10">
+        <h2>Добро пожаловать в Neuroeye, незнакомец!</h2>
+      </div>
+      <div class="col-2" style="margin: auto;">
+        <div>
+          <a href="{{ url_for('signin') }}">
+            <button class="btn btn-primary" style="font-size: 20px; white-space: normal; width: 120px;">Войти</button>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-10" style="padding-top: 5%; padding-bottom: 3%;">
+      <span style="font-weight: normal; font-size: large;">Neuroeye - это сервис для стилизации изображений с помощью алгоритмов глубокого машинного обучения. Но это еще не все. 
+        Это еще и сообщество креативных людей, которые любят экспериментировать в области обработки изображений и делиться своими результатами. 
+        Скоро мы добавим возможность загружать свои обученные модели, и ты сможешь продемонстрировать свои навыки и подходы к 
+        обучению моделей для задачи обработки изображений. Присоединяйся к нам!
+      </span>
+    </div>
+
+    <div>
+      <div class="col-10" style="padding-top: 5%; padding-bottom: 3%;">
+        <img src="{{ url_for('static', filename='img/branding/about.png') }}" style="max-width: 90%;">
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,205 @@
+{% extends "include/basic.html" %}
+
+{% block title %} {{ showcase.title }} {% endblock title %}
+
+{% block content %}
+
+<div class="row border shadow p-3 mb-3 bg-white rounded" style="max-width: 80rem; margin: auto;">
+  <div class="col-4">
+    <div class="row">
+      <div class="col-12 text-center" style="margin-top: 10px; margin-bottom: 20px;">
+        <h4>Исходное изображение</h4>
+      </div>
+    </div>
+
+    <div class="row">
+        <div class="row" style="margin-bottom: 10px;">
+          <img class="styled-image" src="{{ url_for('static', filename=showcase.src_img_url) }}" width="300" height="300" id="img_src">
+      </div>
+    </div>
+  </div>
+
+  <div class="col-4">
+    <div class="row">
+      <div class="col-12 text-center"style="margin-top: 10px; margin-bottom: 20px;">
+        <h4>Образец</h4>
+      </div>
+    </div>
+    <div class="row">
+        <div class="row" style="margin-bottom: 10px;">
+          <img class="styled-image" src="{{ url_for('static', filename=showcase.sample_img_url) }}" width="300" height="300" id="sample_src">
+        </div>
+    </div>
+  </div>
+
+  <div class="col-4">
+    <div class="row">
+      <div class="col-12 text-center" style="margin-top: 10px;">
+        <h4>Результат</h4>
+      </div>
+    </div>
+    <div class="row">
+        <div class="row" style="margin-top: 10px; margin-bottom: 20px;">
+          <img class="styled-image" src="{{ url_for('static', filename=showcase.dst_img_url) }}" width="300" height="300" id="dst_src">
+        </div>
+    </div>
+  </div>
+</div>
+
+<div class="row border" style="border-radius: 10px; max-width: 80rem; margin: auto;">
+  <div class="col-8" style="margin-top: 30px;">
+    <div class="row">
+      <div class="row" style="margin-bottom: 20px;">
+        <div class="col-2">
+          <label>Название</label>
+        </div>
+        <div class="col-6">
+          {{ showcase.title }}
+        </div>
+      </div>
+
+      <div class="row" style="margin-bottom: 20px;">
+        <div class="col-2">
+          <label>Описание</label>
+        </div>
+        <div class="col-6">
+          {{ showcase.description }}
+        </div>
+      </div>
+
+      <div class="row" style="margin-bottom: 20px;">
+        {% if showcase.tags|length > 0 %}
+        <div class="col-2">
+          <label>Тэги</label>
+        </div>
+        <div class="col-6">
+          <div class="row">
+            {% for tag in showcase.tags %}
+              <a style="color: rgb(72, 138, 160);" href="{{ url_for('home') }}"> {{ tag.name }} </a>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="row" style="margin-bottom: 20px;">
+        <div class="col-2" style="display: flex; align-items: center; flex-wrap: wrap;">
+          <label>Автор</label>
+        </div>
+        <div class="col-6">
+          <div class="row">
+            <div class="col-2">
+              {% if showcase.author_userpic_url %}
+                <img class="border rounded-pill" src="{{ url_for('static', filename=showcase.author_userpic_url) }}" width="50px" height="50px" style="margin-left:10px">
+              {% else %}
+                <img class="border rounded-pill" src="{{ url_for('static', filename='img/placeholder/userpic.png') }}" width="50px" height="50px" style="margin-left:10px">
+              {% endif %}
+            </div>
+            <div class="col-6 float-left" style="display: flex; align-items: center; flex-wrap: wrap;">
+              {{ showcase.author_name }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-4" style="margin-top: 30px;">
+    <div class="row">
+      <div class="col-1">
+        <img class="dimmed" src="{{ url_for('static', filename='img/branding/logo.png') }}" style="width: 25px; height: 25px; margin-bottom:10px">
+      </div>
+      <div class="col-3" style="margin-left:30 px">
+        {{ showcase.view_count }}
+      </div>
+    </div>
+    {% if current_user.id == showcase.author_id %}
+      <div class="form-check form-switch" style="align-items: end">
+        {% if showcase.is_published %}
+          <input class="form-check-input" style="width:35px; height: 20px;" type="checkbox" name="publish" id="checkbox_publish" checked onchange="unpublishShowcase()">
+        {% else %}
+          <input class="form-check-input" style="width:35px; height: 20px;" type="checkbox" name="publish" id="checkbox_publish" onchange="publishShowcase()">
+        {% endif %}
+        <label class="form-check-label" for="publish" style="font-weight: bold;">Опубликовать</label>
+      </div>
+      
+      <div class="row" style="padding-top: 20px;">
+        <div class="col-1">
+          <input type="image" src="{{ url_for('static', filename='img/button/cancel.png') }}" width="30px" height="30px" onclick="deleteShowcase()">
+        </div>
+        <div class="col-3">
+          <label style="display: flex; font-weight: bold; align-items: center;">Удалить</label>
+        </div>
+      </div>
+    {% else %}
+      <div class="form-check form-switch" style="align-items: end">
+        {% if is_liked_by_user %}
+          <input class="form-check-input" style="width:35px; height: 20px;" type="checkbox" name="like" id="checkbox_like" checked>
+        {% else %}
+          <input class="form-check-input" style="width:35px; height: 20px;" type="checkbox" name="like" id="checkbox_like">
+        {% endif %}
+        <label class="form-check-label" for="like" style="font-weight: bold;">Понравилось</label>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock content %}
+
+{% block scripts %}
+<script>
+  `{% if current_user.id != showcase.author_id %}`
+  window.addEventListener("load", () => {
+    document.getElementById('checkbox_like').addEventListener('change', (event) => {
+      const id = parseInt(`{{showcase.id}}`);
+
+      if (event.currentTarget.checked) {
+        const url = "{{ url_for('showcase', id=showcase.id) }}";
+        fetch(url, {
+          method: 'POST',
+          body: JSON.stringify({action: "like"})
+        }) 
+      } else {
+        const url = "{{ url_for('showcase', id=showcase.id) }}";
+        fetch(url, {
+          method: 'POST',
+          body: JSON.stringify({action: "unlike"})
+        }) 
+      }
+    })
+  })
+  `{% endif %}`
+
+
+  function publishShowcase(id) {
+    const url = "{{ url_for('showcase', id=showcase.id) }}";
+    fetch(url, {
+      method: 'POST',
+      body: JSON.stringify({action: "publish"})
+    }) 
+  }
+
+  function unpublishShowcase(id) {
+    const url = "{{ url_for('showcase', id=showcase.id) }}";
+    fetch(url, {
+      method: 'POST',
+      body: JSON.stringify({action: "unpublish"})
+    }) 
+  }
+
+  function deleteShowcase(id) {
+    const url = "{{ url_for('showcase', id=showcase.id) }}";
+    fetch(url, {
+      method: 'DELETE'
+    })
+    .then(() => {
+      let images = document.getElementsByClassName("styled-image");
+      for (i = 0; i < images.length; i++) {
+        images[i].classList.add("dimmed");
+      }
+    })
+  }
+</script>
+  
+{% endblock scripts %}

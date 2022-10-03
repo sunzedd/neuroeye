@@ -1,0 +1,38 @@
+<a class="showcase" href="{{ url_for('showcase', id=showcase.id) }}">
+  <div class="row">
+    <div class="col-6 showcase-title">
+      {{showcase.title}}
+    </div>
+  </div>
+
+  <div class="row showcase-pic-block">
+    <img class="showcase-img" src="{{ url_for('static', filename=showcase.src_img_url) }}">
+    <img class="showcase-img" src="{{ url_for('static', filename=showcase.sample_img_url) }}">
+    <img class="showcase-img" src="{{ url_for('static', filename=showcase.dst_img_url) }}">  
+  </div>
+  
+  <div class="row" style="margin-top: 10px;">
+    <div class="col-2">
+      <div class="float-center">
+        {% if showcase.author_userpic_url %}
+          <img class="border rounded-pill" src="{{ url_for('static', filename=showcase.author_userpic_url) }}" width="30px" height="30px" style="margin-left:10px">
+        {% else %}
+          <img class="border rounded-pill" src="{{ url_for('static', filename='img/placeholder/userpic.png') }}" width="30px" height="30px" style="margin-left:10px">
+        {% endif %}
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="showcase-info">
+        {{ showcase.author_name }}
+      </div>  
+    </div>
+
+    <div class="col-6">
+      <div class="showcase-info float-end">
+        {% for tag in showcase.tags %}
+          {{ tag.name }}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</a>
