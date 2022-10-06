@@ -1,28 +1,18 @@
 from internal.media.image_loader import ImageLoader
 from internal.styling.styling_service import IStylingService, StylingService
-from api.utils import get_current_user
+from api.utils import require_auth
 
 from flask.views import MethodView
 from flask import render_template, request, make_response, url_for, redirect
 
 
 class StylizeEndpoint(MethodView):
+    @require_auth
     def get(self):
-        is_authorized, current_user = get_current_user(request.cookies)
-        if not is_authorized:
-            response = make_response(redirect(url_for('about')))
-            response.delete_cookie('session_key')
-            return response
+        return render_template('stylize.html', current_user=request.user)
 
-        return render_template('stylize.html', current_user=current_user)
-
+    @require_auth
     def post(self):
-        is_authorized, current_user = get_current_user(request.cookies)
-        if not is_authorized:
-            response = make_response(redirect(url_for('about')))
-            response.delete_cookie('session_key')
-            return response
-        
         source_image = request.files['input_src_img']
         sample_image = request.files['input_sample_img']
 
@@ -35,20 +25,14 @@ class StylizeEndpoint(MethodView):
             ImageLoader.get_absolute_filepath(source_image_url),
             ImageLoader.get_absolute_filepath(sample_image_url))
 
-        return render_template(
-            'styling_result.html', 
-            current_user=current_user,
+        return render_template('styling_result.html', 
+            current_user=request.user,
             result={
                 'src_img_url': source_image_url,
                 'sample_img_url': sample_image_url,
                 'dst_img_url': styling_response['dst_img_url']
-            }
-        )
+            })
 
-
+    @require_auth
     def delete(self):
-        is_authorized, current_user = get_current_user(request.cookies)
-        if not is_authorized:
-            response = make_response(redirect(url_for('about')))
-            response.delete_cookie('session_key')
-            return response
+        raise NotImplementedError()

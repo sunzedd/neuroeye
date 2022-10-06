@@ -1,7 +1,7 @@
 from internal.showcase.showcase_table import ShowcaseTable
 from internal.media.image_table import ImageTable
 from internal.user.user_table import UserTable
-from api.utils import get_current_user
+from api.utils import require_auth
 
 from flask.views import MethodView
 from flask import request, render_template, make_response, redirect, url_for
@@ -33,13 +33,8 @@ def prepare_showcase_views(showcases: List[Dict]) -> List[Dict]:
 
 
 class HomeEndpoint(MethodView):
+    @require_auth
     def get(self):
-        is_authorized, current_user = get_current_user(request.cookies)
-        if not is_authorized:
-            response = make_response(redirect(url_for('about')))
-            response.delete_cookie('session_key')
-            return response
-
         # query parameters
         is_liked_requested = request.args.get('liked', False)
         is_owned_requested = request.args.get('owned', False)
@@ -48,10 +43,10 @@ class HomeEndpoint(MethodView):
         active_tab = None
 
         if is_liked_requested:
-            showcases = ShowcaseTable.find_liked_by_user(current_user.get('id'))
+            showcases = ShowcaseTable.find_liked_by_user(request.user.get('id'))
             active_tab = 'liked'
         elif is_owned_requested:
-            showcases = ShowcaseTable.find_owned_by_user(current_user.get('id'))
+            showcases = ShowcaseTable.find_owned_by_user(request.user.get('id'))
             active_tab = 'owned'
         else:
             showcases = ShowcaseTable.find_last_published()
@@ -61,6 +56,6 @@ class HomeEndpoint(MethodView):
         return render_template(
             'home.html',
             active_tab=active_tab,
-            current_user=current_user, 
+            current_user=request.user, 
             showcases=showcase_views
         )
