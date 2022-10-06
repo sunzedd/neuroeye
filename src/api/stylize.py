@@ -1,7 +1,4 @@
-from internal.showcase.showcase_table import ShowcaseTable
-from internal.media.image_table import ImageTable
 from internal.media.image_loader import ImageLoader
-from internal.user.user_table import UserTable
 from internal.styling.styling_service import IStylingService, StylingService
 from api.utils import get_current_user
 

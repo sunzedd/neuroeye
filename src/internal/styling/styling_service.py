@@ -1,6 +1,5 @@
 from internal.styling.istyling import IStylingService
 from internal.media.image_loader import ImageLoader
-from internal.media.imedia import IMediaService
 
 import tensorflow_hub as hub
 import tensorflow as tf

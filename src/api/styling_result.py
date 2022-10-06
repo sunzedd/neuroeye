@@ -1,12 +1,9 @@
 from internal.showcase.showcase_table import ShowcaseTable
 from internal.media.image_table import ImageTable
-from internal.media.image_loader import ImageLoader
-from internal.user.user_table import UserTable
-from internal.styling.styling_service import IStylingService, StylingService
 from api.utils import get_current_user
 
 from flask.views import MethodView
-from flask import render_template, request, make_response, url_for, redirect
+from flask import request, make_response, url_for, redirect
 
 
 class StylingResultEndpoint(MethodView):

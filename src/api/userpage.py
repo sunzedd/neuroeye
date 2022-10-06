@@ -1,5 +1,4 @@
 from internal.user.user_table import UserTable
-from internal.media.image_loader import ImageLoader
 from internal.media.image_table import ImageTable
 from api.utils import get_current_user
 

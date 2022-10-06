@@ -1,6 +1,5 @@
 from internal.media.imedia import IMediaService
 from internal.media.image import Image
-from internal.media.image import ImageQueryBuilder
 from internal.media.image_loader import ImageLoader
 
 from typing import Dict, Any

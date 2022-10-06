@@ -1,6 +1,6 @@
 from flask.views import MethodView
 
-from flask import request, make_response, redirect, url_for, render_template
+from flask import request, redirect, url_for, render_template
 from internal.user.iuser import UserAlreadyExistsError
 
 from internal.user.user_table import UserTable
@@ -17,6 +17,6 @@ class SignUpEndpoint(MethodView):
         try:
             UserTable.create(username, email, password)
         except UserAlreadyExistsError as e:
-            return 'Ползователь уже существует'
+            return 'Пользователь уже существует'
         
         return redirect(url_for('signin'))

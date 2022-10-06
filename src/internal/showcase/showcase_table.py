@@ -1,4 +1,3 @@
-from curses import noecho
 from internal.showcase.ishowcase import IShowcaseService
 from internal.showcase.showcase import Showcase
 from internal.showcase.tag import Tag

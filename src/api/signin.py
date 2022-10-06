@@ -1,7 +1,4 @@
-from datetime import datetime
-from internal.auth.iauth import IAuthService
 from internal.auth.session_table import SessionTable, AuthInvalidCredentialsError
-from internal.user.user_table import UserTable
 
 from flask.views import MethodView
 from flask import render_template

@@ -1,4 +1,3 @@
-from typing import Dict
 from internal.auth.session_table import SessionTable
 from internal.user.user_table import UserTable
 from internal.media.image_table import ImageTable

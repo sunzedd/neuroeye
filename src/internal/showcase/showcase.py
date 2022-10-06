@@ -5,7 +5,6 @@ from internal.showcase.tag import Tag
 
 from typing import List
 
-from internal.showcase.tag_query_builder import TagQueryBuilder
 
 
 class Showcase(Entity):
