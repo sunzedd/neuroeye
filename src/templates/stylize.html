@@ -7,25 +7,26 @@
 
 {% block content %}
 
-<form method="post" id="fileupload" action="{{ url_for('stylize') }}" accept-charset="utf-8" class="fill-up" enctype="multipart/form-data" style="max-width: 70rem; margin: auto;">
+
+<div class="fill-up" enctype="multipart/form-data" style="max-width: 70rem; margin: auto;">
   <div class="row border shadow p-1 mb-3 bg-white rounded" style="margin: auto">
     <div class="col-4" style="text-align: center; margin: 15px;">
       <h4 style="margin-bottom: 30px;">Оригинальное изображение</h4>        
       <div style="text-align: center;">
         <img class="image-placeholder" src="{{ url_for('static', filename='img/placeholder/image2.png') }}" style="margin-bottom: 40px;" id="display_src_img">
-        <input class="form-control rounded-pill file-browser" type="file" onchange="putImage(event, 'display_src_img')" name="input_src_img" id="input_src_img">
+        <input class="form-control rounded-pill file-browser" type="file" onchange="putImage(event, 'display_src_img', 'source')" name="input_src_img" id="input_src_img">
       </div>
     </div> 
     <div class="col-4" style="text-align: center; margin: 15px;">
       <h4 style="margin-bottom: 30px;">Образец</h4>        
       <div style="text-align: center;">
         <img class="image-placeholder" src="{{ url_for('static', filename='img/placeholder/image2.png') }}" style="margin-bottom: 40px;" id="display_sample_img">
-        <input class="form-control rounded-pill file-browser" type="file" onchange="putImage(event, 'display_sample_img')" name="input_sample_img" id="input_sample_img">
+        <input class="form-control rounded-pill file-browser" type="file" onchange="putImage(event, 'display_sample_img', 'sample')" name="input_sample_img" id="input_sample_img">
       </div>
     </div>
 
     <div class="col-auto" style="text-align: center; margin: auto;">   
-      <button class="btn btn-primary" onclick="showSpiner()" type="submit">Обработать</button>
+      <button class="btn btn-primary" onclick="submit()">Обработать</button>
     </div>
   </div>
 </form>
@@ -37,9 +38,37 @@
 
 {% block scripts %}
 <script>
-  function putImage(event, id) {
+  var sourceImageFile = null;
+  var sampleImageFile = null;
+
+  function putImage(event, id, which) {
     var img = document.getElementById(id);
     img.src = URL.createObjectURL(event.target.files[0]);
+
+    if (which === 'source') { 
+      sourceImageFile = event.target.files[0];
+    } else if (which == 'sample') { 
+      sampleImageFile = event.target.files[0];
+    }
+  }
+
+  function submit() {
+    var data = new FormData();
+    data.append('input_src_img', sourceImageFile);
+    data.append('input_sample_img', sampleImageFile);
+
+    showSpiner();
+
+    fetch("{{ url_for('stylize') }}", {
+      method: 'POST',
+      body: data
+    })
+    .then((response) => {
+      return response.text()
+    })
+    .then((html) => {
+      document.body.innerHTML = html;
+    })
   }
 
   function showSpiner() {
