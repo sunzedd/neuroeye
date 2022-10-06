@@ -1,4 +1,4 @@
-from internal.shared.entity import Entity
+from internal.entity.entity import Entity
 from internal.user.user_query_builder import UserQueryBuilder
 from internal.sequrity.sequrity import ISecurityService, Security
 
@@ -39,7 +39,6 @@ class User(Entity):
 
     def save(self):
         if self.id is None:
-            self.reset_password(self.password)
             query = UserQueryBuilder().insert(
                 self.username,
                 self.email,
@@ -47,7 +46,6 @@ class User(Entity):
             response = self.database.execute_query(query)
             self.id = int(response[0][0])
         else:
-            self.reset_password(self.password)
             query = UserQueryBuilder().update(
                 self.id,
                 self.username,
