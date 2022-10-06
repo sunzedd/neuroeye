@@ -1,4 +1,4 @@
-from internal.shared.entity import Entity
+from internal.entity.entity import Entity
 from internal.media.image_query_builder import ImageQueryBuilder
 
 from typing import List

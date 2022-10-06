@@ -17,6 +17,6 @@ class SignUpEndpoint(MethodView):
         try:
             UserTable.create(username, email, password)
         except UserAlreadyExistsError as e:
-            return 'Пользователь уже существует'
+            return render_template('signup.html', error='Пользователь с такими данными уже существует')
         
         return redirect(url_for('signin'))

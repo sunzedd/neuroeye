@@ -1,4 +1,4 @@
-from internal.shared.entity import Entity
+from internal.entity.entity import Entity
 from internal.showcase.tag_query_builder import TagQueryBuilder
 
 from typing import List

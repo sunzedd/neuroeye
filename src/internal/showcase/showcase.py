@@ -1,5 +1,5 @@
 from internal.storage.istorage import DatabaseSyncError
-from internal.shared.entity import Entity
+from internal.entity.entity import Entity
 from internal.showcase.showcase_query_builder import ShowcaseQueryBuilder
 from internal.showcase.tag import Tag
 
@@ -104,7 +104,7 @@ class Showcase(Entity):
         dbresponse = self.database.execute_query(query)
         return 0 if len(dbresponse) == 0 else int(dbresponse[0][0])
 
-    def increase_view_count(self):
+    def increase_view_count(self) -> int:
         if self.id is None:
             return False
         view_count = self.get_views_count()
@@ -114,7 +114,8 @@ class Showcase(Entity):
             view_count = self.get_views_count()
         query = ShowcaseQueryBuilder().update_view_count(self.id, view_count + 1)
         self.database.execute_query(query, fetch_response=False)
-            
+        return view_count + 1
+
     @staticmethod
     def find(id: int) -> 'Showcase':
         query = ShowcaseQueryBuilder().select(id)

@@ -15,7 +15,7 @@ class UserTable(IUserService):
         user = User()
         user.username = username
         user.email = email
-        user.password = password
+        user.reset_password(password)
         user.save()
 
         return { 'id': user.id }

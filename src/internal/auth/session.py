@@ -1,4 +1,4 @@
-from internal.shared.entity import Entity
+from internal.entity.entity import Entity
 from internal.auth.session_query_builder import SessionQueryBuilder
 
 from typing import List

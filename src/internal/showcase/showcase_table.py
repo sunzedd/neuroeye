@@ -88,10 +88,10 @@ class ShowcaseTable(IShowcaseService):
             showcase.delete()
 
     @staticmethod
-    def increase_view_count(id: int):
+    def increase_view_count(id: int) -> int:
         showcase = Showcase.find(id)
         if showcase is not None:
-            showcase.increase_view_count()
+            return showcase.increase_view_count()
 
     @staticmethod
     def get_view_count(id: int) -> int:
