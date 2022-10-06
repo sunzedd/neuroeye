@@ -6,6 +6,16 @@
       {% endblock title %}
     </title>
 
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul class=flashes>
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+    {% endwith %}
+
     <link rel="icon" href="{{ url_for('static', filename='img/branding/logo_mini.png') }}" type="image/icon type">
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
@@ -34,20 +44,18 @@
             </div>
             
             <div class="col-2 float-end">
-              <!-- <div class="row float-right"> -->
-                  <a href="{{ url_for('signout') }}" style="color: rgba(0, 0, 0, 0); width:40px; padding: 10px;" >
-                    <img src="{{ url_for('static', filename='img/button/signout.png') }}" style="width: 30px; height: 30px;">
-                  </a>
-                  <a href="{{ url_for('userpage') }}" class="float-right" style="width:60px">
-                    {% if current_user %}
-                      {% if current_user.userpic_url %}
-                        <img class="border rounded-pill" src="{{ url_for('static', filename=current_user.userpic_url) }}" style="width: 50px; height: 50px;">
-                      {% else %}
-                        <img class="border rounded-pill" src="{{ url_for('static', filename='img/placeholder/userpic.png') }}" style="width: 50px; height: 50px;">
-                      {% endif %}
-                    {% endif %}
-                  </a>
-              <!-- </div> -->
+              <a href="{{ url_for('signout') }}" style="color: rgba(0, 0, 0, 0); width:40px; padding: 10px;" >
+                <img src="{{ url_for('static', filename='img/button/signout.png') }}" style="width: 30px; height: 30px;">
+              </a>
+              <a href="{{ url_for('userpage') }}" class="float-right" style="width:60px">
+                {% if current_user %}
+                  {% if current_user.userpic_url %}
+                    <img class="border rounded-pill" src="{{ url_for('static', filename=current_user.userpic_url) }}" style="width: 50px; height: 50px;">
+                  {% else %}
+                    <img class="border rounded-pill" src="{{ url_for('static', filename='img/placeholder/userpic.png') }}" style="width: 50px; height: 50px;">
+                  {% endif %}
+                {% endif %}
+              </a>
             </div>
           </nav>
         </div>

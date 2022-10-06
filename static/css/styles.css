@@ -147,3 +147,9 @@ a:link {
   width: auto;
   height: auto;
 }
+
+.error {
+  text-align: center;
+  color: red;
+  font-size: large;
+}
