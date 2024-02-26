@@ -1,0 +1,14 @@
+{% extends "include/basic.html" %}
+
+{% block title %} Neuroeye {% endblock title %}
+
+{% block content %}
+<div class="col-auto text-center">
+  <img class="error-404" src="{{ url_for('static', filename='img/branding/logo.png') }}">
+  <h1>404</h1>
+  <h4 style="padding-top: 20px; color:rgb(127, 159, 187)">Запрашиваемая страница не найдена ...</h4>
+  <div style="padding-top: 40px;">
+    <a href="{{ url_for('home') }}" style="color:rgb(127, 159, 187);">На главную</a>
+  </div>
+</div>
+{% endblock content %}

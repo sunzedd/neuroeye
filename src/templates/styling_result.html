@@ -1,0 +1,132 @@
+{% extends "include/basic.html" %}
+
+{% block title %} Результат {% endblock title %}
+
+{% block content %}
+<div class="row border shadow p-2 mb-2 bg-white rounded" style="max-width: 80rem; margin-left:auto; margin-right: auto;">
+  <div style="text-align: end;">
+    <span style="transition: 0 -30px;">
+      <input class="cancel-button" type="image" src="{{ url_for('static', filename='img/button/cancel.png') }}" onclick="reset()">
+    </span>
+  </div>
+
+  <div class="col-4">
+    <div class="row">
+      <div class="col-12 text-center" style="margin-bottom: 10px;">
+        <h4>Исходное изображение</h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="row">
+        <div class="row" style="margin-bottom: 10px;">
+            <img class="styled-image" src="{{ url_for('static', filename=result.src_img_url) }}" id="src_img">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-4">
+    <div class="row">
+      <div class="col-12 text-center" style="margin-bottom: 10px;">
+        <h4>Образец</h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="row">
+        <div class="row" style="margin-bottom: 10px;">
+          <img class="styled-image" src="{{ url_for('static', filename=result.sample_img_url) }}" width="300" height="300" id="sample_img">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-4">
+    <div class="row">
+      <div class="col-12 text-center" style="margin-bottom: 10px;">
+        <h4>Результат</h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="row">
+        <div class="row" style="margin-bottom: 10px;">
+          <img class="styled-image" src="{{ url_for('static', filename=result.dst_img_url) }}" width="300" height="300" id="dst_img">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="max-width: 80rem; margin:auto">
+    <form action="{{ url_for('styling-result') }}" method="POST">
+      <input type="hidden" name="src_img_url" id="src_img_url"       value="{{ result.src_img_url }}">
+      <input type="hidden" name="sample_img_url" id="sample_img_url" value="{{ result.sample_img_url }}">
+      <input type="hidden" name="dst_img_url" id="dst_img_url"       value="{{ result.dst_img_url }}">
+     
+      <div class="col-10" style="margin-top: 30px;">
+        <div class="row" style="margin-bottom: 20px;">
+          <div class="col-1">
+            <label>Название</label>
+          </div>
+          <div class="col-6">
+            <input class="form-control me-2" type="text" name="showcase_title" id="showcase_title">
+          </div>
+        </div>
+
+        <div class="row" style="margin-bottom: 20px;">
+          <div class="col-1">
+            <label>Описание</label>
+          </div>
+          <div class="col-6">
+            <input class="form-control me-2" type="text" name="showcase_description" id="showcase_description">
+          </div>
+        </div>
+
+        <div class="row" style="margin-bottom: 20px;">
+          <div class="col-1">
+            <label>Тэги</label>
+          </div>
+          <div class="col-6">
+            <input class="form-control me-2" type="text" name="showcase_tags" id="showcase_tags">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-2">
+            <div class="form-check form-switch" style="margin-top: 20px;">
+              <input class="form-check-input" type="checkbox" name="publish" id="publish">
+              <label class="form-check-label" for="publish">Опубликовать</label>
+            </div>
+          </div>
+
+          <div class="col-4">
+            <button type="submit" class="btn btn-primary" style="margin-top: 20px; margin-bottom: 30px;">Добавить в избранное</button>
+          </div>
+        </div>
+      </div>
+    </form>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+  async function reset() {
+    let src_img_url = document.getElementById("src_img")['src'];
+    let sample_img_url = document.getElementById("sample_img")['src'];
+    let dst_img_url = document.getElementById("dst_img")['src'];
+
+    fetch({
+      method: 'DELETE',
+      url: "{{ url_for('stylize') }}",
+      body: {
+        src_img_url: src_img_url,
+        sample_img_url: sample_img_url,
+        dst_img_url: dst_img_url
+      }
+    })
+    
+    window.location.replace("{{ url_for('stylize') }}");
+  }
+</script>
+{% endblock scripts %}
+
+

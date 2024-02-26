@@ -1,0 +1,98 @@
+{% extends "include/basic.html" %}
+
+{% block title %}
+Личный кабинет
+{% endblock title %}
+
+{% block content %}
+<div class="col-10" style="margin: auto; max-width: 1300px;">
+  <div>
+    <h3>Личный кабинет</h3>
+    <p>Привет, {{ current_user.username }}! </p>
+  </div>
+
+  <form class="row border shadow p-5 mb-5 bg-white rounded" accept-charset="utf-8" class="fill-up" enctype="multipart/form-data" method="post" action="{{ url_for('userpage') }}">
+      <div class="col-5" style="text-align: center; padding: 30px;">
+        {% if current_user.userpic_url %}
+          <img class="img-fix-ar border rounded-pill" src="{{ url_for('static', filename=current_user.userpic_url) }}" id="display_userpic" width="300px" height="300px">
+        {% else %}
+          <img class="img-fix-ar border rounded-pill" src="{{ url_for('static', filename='img/placeholder/userpic.png') }}" id="display_userpic" width="300px" height="300px">
+        {% endif %}
+        <div style="margin-left: 30px; margin-right: 20px; margin-top: 30px;">
+          <input class="form-control rounded-pill file-browser" type="file" onchange="putImage(event, 'display_userpic')" name="input_userpic" id="input_userpic">
+        </div>
+    </div>
+
+    <div class="col-7" style="padding: 30px 50px; margin: auto;">
+      <div style="margin-left: 50px;">
+        <div style="text-align: center;">
+          <h4>Персональные данные</h4>
+        </div>
+        <div class="row field">
+          <div class="col-4">
+            Имя пользователя
+          </div>
+          <div class="col-6">
+            {{ current_user.username }}
+          </div>
+        </div>
+        <div class="row field">
+          <div class="col-4">
+            Email
+          </div>
+          <div class="col-6">
+            {{ current_user.email }}
+          </div>
+        </div>
+
+        <div class="password-form" action="{{ url_for('userpage') }}" method="post">
+          <div class="row field">
+            <div class="col-4">
+              Новый пароль
+            </div>
+            <div class="col-6">
+              <input class="form-control me-2 rounded-pill" id="password" type="text" name="password">
+            </div>
+          </div>
+
+          <div class="row field">
+            <div class="col-4">
+              Повторите пароль
+            </div>
+            <div class="col-6">
+              <input class="form-control me-2 rounded-pill" id="repeated_password" type="text" name="repeated_password">
+            </div>
+          </div>
+
+          <div class="row field">
+            <div class="col-4">
+            </div>
+            <div class="col-6">
+              <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<style>
+  .field {
+    margin-top: 20px;
+  }
+
+  .password-form {
+    margin-top: 60px;
+  }
+</style>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+  function putImage(event, id) {
+    var img = document.getElementById(id);
+    img.src = URL.createObjectURL(event.target.files[0]);
+  }
+</script>
+{% endblock scripts %}

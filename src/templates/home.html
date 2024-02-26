@@ -1,0 +1,73 @@
+{% extends "include/basic.html" %}
+
+{% block title %} Neuroeye {% endblock title %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-10">
+      <ul class="nav nav-tabs">
+        {% if active_tab  == 'liked' %}
+          <li class="nav-item">
+            <a id="last_published" class="nav-link" style="cursor: pointer;" href="{{ url_for('home') }}" aria-current="page">Последние стилизации</a>
+          </li>
+          <li class="nav-item">
+            <a id="liked" class="nav-link active" style="cursor: pointer;" href="{{ url_for('home', liked=1) }}">Понравившееся</a>
+          </li>
+          <li class="nav-item">
+            <a id="owned" class="nav-link" style="cursor: pointer;" href="{{ url_for('home', owned=1) }}">Мои стилизации</a>
+          </li>
+        {% elif active_tab == 'owned' %}
+          <li class="nav-item">
+            <a id="last_published" class="nav-link" style="cursor: pointer;" href="{{ url_for('home') }}" aria-current="page">Последние стилизации</a>
+          </li>
+          <li class="nav-item">
+            <a id="liked" class="nav-link" style="cursor: pointer;" href="{{ url_for('home', liked=1) }}">Понравившееся</a>
+          </li>
+          <li class="nav-item">
+            <a id="owned" class="nav-link active" style="cursor: pointer;" href="{{ url_for('home', owned=1) }}">Мои стилизации</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a id="last_published" class="nav-link active" style="cursor: pointer;" href="{{ url_for('home') }}" aria-current="page">Последние стилизации</a>
+          </li>
+          <li class="nav-item">
+            <a id="favourites" class="nav-link" style="cursor: pointer;" href="{{ url_for('home', liked=1) }}">Понравившееся</a>
+          </li>
+          <li class="nav-item">
+            <a id="owned" class="nav-link" style="cursor: pointer;" href="{{ url_for('home', owned=1) }}">Мои стилизации</a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+    <div class="col-2">
+      <div>
+        <a href="{{ url_for('stylize') }}">
+          <button class="btn btn-primary" style="font-size: 14px; white-space: normal; width: 120px;">Обработать изображение</button>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="showcase-view-container" id="showcase_views_container">
+    {% for showcase in showcases %}
+      {% include "include/showcase_view.html" %}
+    {% endfor %}
+  </div>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+  function redirectToShowcase(id) {
+    
+  }
+
+  function deleteShowcase(id) {
+    
+  }
+
+  function unlikeShowcase(id) {
+    
+  }
+
+</script>
+{% endblock scripts %}

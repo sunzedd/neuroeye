@@ -1,0 +1,64 @@
+{% extends "include/basic.html" %}
+
+{% block title %}
+Вход
+{% endblock title %}
+
+{% block content %}
+{% if error %}
+  <p class=error><strong>Ошибка:</strong> {{ error }}
+{% endif %}
+
+<form action="{{ url_for('signin') }}" method="POST">
+  <div class="row" style="margin-top: 200px;">
+    <div class="col-2"></div>
+    <div class="col-2" style="text-align: center; padding: 30px;">
+      <img src="{{ url_for('static', filename='img/branding/neuralnet.png') }}" width="250px" height="250px">
+      <h3>Neuralnet</h3>
+    </div> 
+
+    <div class="col-7" style="padding: 30px 50px; ">
+      <div class="border shadow p-3 mb-5 bg-white rounded" style="margin-left: 100px; padding: 30px 100px;">
+        <span style="text-align: center;">
+          <h3 style=" margin-bottom: 50px">Авторизация</h3>
+        </span>
+        
+        <div class="row">
+          <div class="col-3">
+            <label>Имя пользователя</label>
+          </div>
+          <div class="col-9">
+            <input class="form-control me-2 rounded-pill" type="text" name="username">
+          </div>
+        </div>
+
+        <div class="row" style="margin-top: 10px;">
+          <div class="col-3">
+            <label>Пароль</label>
+          </div>
+          <div class="col-9">
+            <input class="form-control me-2 rounded-pill" type="text" name="password">
+          </div>
+        </div>
+
+        <div class="row" style="margin-top: 10px;">
+          <div class="col-3"></div>
+          <div class="col-9" style="margin-top: 20px;">
+            <div class="row">
+              <div class="col-6">
+                <button class="btn btn-primary" style="width: 200px;">Войти</button> 
+              </div>
+              <div class="col-6" style="font-size: 14px; margin-bottom: 20px; padding-top: 15px;">
+                Нет аккаута? <a href="{{ url_for('signup') }}" class="link-primary">Зарегистрироваться</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> 
+
+    <div class="col-2"></div>
+  </div>
+</form>
+
+{% endblock content %}
